@@ -22,8 +22,12 @@ def index():
     return render_template("index.html")
 
 
+@app.route('/about')
+def about():
+    return render_template("about.html")
+
 @app.route('/create-chat', methods=['POST', 'GET'])
-def create_chat():
+def sendMessage():
     if request.method == 'POST':
         name = request.form['name']
         message = request.form['message']
