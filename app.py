@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for
+from flask import Flask, render_template, url_for, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
@@ -22,9 +22,22 @@ def index():
     return render_template("index.html")
 
 
-@app.route('/create-chat')
+@app.route('/create-chat', methods=['POST', 'GET'])
 def create_chat():
-    return render_template("create-chat.html")
+    if request.method == 'POST':
+        name = request.form['name']
+        message = request.form['message']
+
+        text = Text(name=name, message=message)
+
+        try:
+            db.session.add(text)
+            db.session.commit()
+            return redirect('/')
+        except:
+            return "При добавлении сообщения произошла ошибка"
+    else:
+        return render_template("create-chat.html")
 
 
 
