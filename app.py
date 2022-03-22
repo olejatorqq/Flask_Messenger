@@ -26,6 +26,13 @@ def index():
 def about():
     return render_template("about.html")
 
+
+
+@app.route('/posts')
+def getChat():
+    messages = Text.query.order_by(Text.id.desc()).all()
+    return render_template("posts.html", messages=messages)
+
 @app.route('/create-chat', methods=['POST', 'GET'])
 def sendMessage():
     if request.method == 'POST':
@@ -37,7 +44,7 @@ def sendMessage():
         try:
             db.session.add(text)
             db.session.commit()
-            return redirect('/')
+            return redirect('/posts')
         except:
             return "При добавлении сообщения произошла ошибка"
     else:
