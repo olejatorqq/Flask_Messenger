@@ -8,12 +8,17 @@
 <div class="container">
     <h1>Все сообщения</h1>
 
-    {% for element in messages %}
-    <div class="alert alert-info">
-        <h2>{{ element.name }}</h2>
-        <p>{{ element.message }}</p>
-        <button class="btn btn-warning">Детальнее</button>
-    </div>
-    {% endfor %}
+    {% if messages|length > 0 %}
+        {% for element in messages %}
+        <div class="alert alert-info">
+            <h2>{{ element.name }}</h2>
+            <p>{{ element.message }}</p>
+            <a href="/posts/{{ element.id }}/delete" class="btn btn-danger">Удалить</a>
+            <a href="/posts/{{ element.id }}/update" class="btn btn-warning">Изменить</a>
+        </div>
+        {% endfor %}
+    {% else %}
+    <p>Еще нет сообщений на сайте</p>
+    {% endif %}
 </div>
 {% endblock %}

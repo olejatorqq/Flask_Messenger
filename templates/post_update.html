@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Обновление сообщения
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h1>Обновление сообщения</h1>
+    <form method="post">
+        <input type="text" name="name" id="name" class="form-control" value="{{ chat.name }}" placeholder="Введите Имя"><br>
+        <textarea name="message" id="message" class="form-control" placeholder="Введите сообщение">{{ chat.message }}</textarea><br>
+        <input type="submit" class="btn btn-success" value="Обновить"><br>
+    </form>
+</div>
+{% endblock %}

@@ -27,11 +27,11 @@ def about():
     return render_template("about.html")
 
 
-
 @app.route('/posts')
 def getChat():
     messages = Text.query.order_by(Text.id.desc()).all()
     return render_template("posts.html", messages=messages)
+
 
 @app.route('/create-chat', methods=['POST', 'GET'])
 def sendMessage():
@@ -51,6 +51,33 @@ def sendMessage():
         return render_template("create-chat.html")
 
 
+@app.route('/posts/<int:id>/delete')
+def delChat(id):
+    chat = Text.query.get_or_404(id)
+
+    try:
+        db.session.delete(chat)
+        db.session.commit()
+        return redirect('/posts')
+    except:
+        return "При удалении сообщения произошла ошибка"
+
+
+
+@app.route('/posts/<int:id>/update', methods=['POST', 'GET'])
+def updateMessage(id):
+    chat = Text().query.get(id)
+    if request.method == 'POST':
+        chat.name = request.form['name']
+        chat.message = request.form['message']
+
+        try:
+            db.session.commit()
+            return redirect('/posts')
+        except:
+            return "При изменении сообщения произошла ошибка"
+    else:
+        return render_template("post_update.html", chat=chat)
 
 
 if __name__ == "__main__":
